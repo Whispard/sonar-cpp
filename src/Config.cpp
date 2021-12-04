@@ -1,3 +1,5 @@
+#pragma once
+
 struct Config{
     int rows;
     int cols;
