@@ -1,0 +1,4 @@
+Use a library than randomizer
+use framework for tests
+
+// to install a lib should learn cmake first

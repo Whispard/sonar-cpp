@@ -34,79 +34,80 @@ public:
         }
     }
 
-    void markRanger(int x, int y){
-        if(x > board.size() - 1 ||
-           y > board[0].size() - 1 ||
+    void markRanger(int x, int y,int d){
+        if(x > board[0].size() - 1 ||
+           y > board.size() - 1 ||
            x < 0 ||
            y < 0)
             return;
         board[y][x].kind = CellType::Ranger;
+        board[y][x].distance = d;
     }
 
-    void display(){
-        Display decoraters = Display();
-        for (auto& sonar:sonarLocs) {
-            auto ox = sonar.col;
-            auto oy = sonar.row;
-            auto d = getCell(sonar).distance;
-            //for now shortcut pls
-            if(oy + d > board.size() - 1 ||
-               ox + d > board[0].size() - 1 ||
-               oy - d < 0 ||
-               ox - d < 0)
-                continue;
 
-            for (int p = ox - d; p <= ox + d; ++p) {
-                board[oy-d][p].kind = CellType::Ranger;
-                board[oy+d][p].kind = CellType::Ranger;
-//                markRanger(p,oy-d);
-//                markRanger(p,oy+d);
-            }
-            for (int p = oy - d; p < oy + d; ++p) {
-                board[p][ox - d].kind = CellType::Ranger;
-                board[p][ox + d].kind = CellType::Ranger;
-//                markRanger(p,ox-d);
-//                markRanger(p,ox+d);
-            }
-        }
+    void display(){
+        markRangers();
         for(auto& row:board){
             for(auto& cell:row){
-                char out = '0';
-                int value = 0;
-                switch (cell.kind){
-                    case CellType::Empty:{
-                        if (randomGenerator.flipCoin())
-                            out = '_';//'~';
-                        else
-                            out = '_';//'`';
-                        break;
-                    }
-                    case CellType::Chest:{
-                        out = 'C';
-                        break;
-                    }
-                    case CellType::Sonar:{
-                        if (cell.distance<10)
-                            value = cell.distance;
-                        else
-                            value = cell.distance % 10;
-                        break;
-                    }
-                    case CellType::Ranger:{
-                        out = '*';
-//                        cell.kind = CellType::Empty;
-                        break;
-                    }
-                }
-                if(value==0)
-                std::cout<< out ;
-                else
-                    std::cout << value;
-
+                drawCell(cell);
             }
             std::cout<<std::endl;
         }
         std::cout<<std::endl;
+    }
+
+    void drawCell(Cell &cell) {
+        char out = '0';
+        int value = 0;
+        switch (cell.kind){
+            case CellType::Empty:{
+                if (randomGenerator.flipCoin())
+                    out = '_';//'~';
+                else
+                    out = '_';//'`';
+                break;
+            }
+            case CellType::Chest:{
+                out = ' ';
+                break;
+            }
+            case CellType::Sonar:{
+                if (cell.distance<10)
+                    value = cell.distance;
+                else
+                    value = cell.distance % 10;
+                break;
+            }
+            case CellType::Ranger:{
+                // use simple array or fetch bla bla
+//                        auto rangeDecorations = std::vector({'*','8','='});
+//                        out = rangeDecorations[cell.distance % (rangeDecorations.size()-1)];
+//                        cell.kind = CellType::Empty;
+                out = '_';// cell.distance + '0';
+                break;
+            }
+        }
+        if(value==0)
+            std::cout<< out ;
+        else
+            std::cout << value;
+    }
+
+    void markRangers() {
+        for (auto& sonar: sonarLocs) {
+            auto ox = sonar.col;
+            auto oy = sonar.row;
+            auto d = getCell(sonar).distance;
+
+            for (int p = ox - d; p <= ox + d; ++p) {
+                markRanger(p, oy - d, d);
+                markRanger(p, oy + d, d);
+            }
+            for (int p = oy - d; p < oy + d; ++p) {
+                markRanger(ox - d, p, d);
+                markRanger(ox + d, p, d);
+            }
+        }
     }
 
     bool placeAt(Position pos){
@@ -115,7 +116,7 @@ public:
             return false;
 
         currentCell = Cell{
-            Sonar,
+            CellType::Sonar,
             0
         };
         sonarLocs.push_back(pos);

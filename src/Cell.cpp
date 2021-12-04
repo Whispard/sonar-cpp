@@ -1,6 +1,6 @@
 #include <iostream>
 
-enum CellType{
+enum class CellType{
     Empty,
     Chest,
     Sonar,
