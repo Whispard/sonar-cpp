@@ -1,10 +1,9 @@
 #include "Config.cpp"
-#include "Cell.cpp"
 #include "RandomGenerator.cpp"
+#include "Chest.cpp"
+#include "Sonar.cpp"
 #include <vector>
-#include <string>
 #include <iostream>
-#include <random>
 
 using Display = std::vector<std::vector<Cell>>;
 using Positions = std::vector<Position>;
@@ -17,17 +16,17 @@ public:
             }))},
             randomGenerator{randomizer}
     {
-        chestLocs = std::vector<Position>();
+        chests = std::vector<Chest>();
         for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
-            auto newChest = Position{
+            auto newChest = Chest(Position{
                     randomizer.below(config.rows),
                     randomizer.below(config.cols)
-            };
+            });
             // TODO: Handle when chest already exists
-            chestLocs.push_back(newChest);
+            chests.push_back(newChest);
         }
 
-        for (auto& chest:chestLocs) {
+        for (auto& chest:chests) {
             board[chest.row][chest.col] = Cell{
                 CellType::Chest
             };
@@ -68,7 +67,7 @@ public:
                 break;
             }
             case CellType::Chest:{
-                out = ' ';
+                out = 'C';
                 break;
             }
             case CellType::Sonar:{
@@ -83,7 +82,7 @@ public:
 //                        auto rangeDecorations = std::vector({'*','8','='});
 //                        out = rangeDecorations[cell.distance % (rangeDecorations.size()-1)];
 //                        cell.kind = CellType::Empty;
-                out = '_';// cell.distance + '0';
+                out =  cell.distance + '0';
                 break;
             }
         }
@@ -94,10 +93,10 @@ public:
     }
 
     void markRangers() {
-        for (auto& sonar: sonarLocs) {
+        for (auto& sonar: sonars) {
             auto ox = sonar.col;
             auto oy = sonar.row;
-            auto d = getCell(sonar).distance;
+            auto d = getCell(sonar.pos).distance;
 
             for (int p = ox - d; p <= ox + d; ++p) {
                 markRanger(p, oy - d, d);
@@ -119,10 +118,11 @@ public:
             CellType::Sonar,
             0
         };
-        sonarLocs.push_back(pos);
+        // making Sonar from pos
+        sonars.emplace_back(pos);
 
-        for (auto& sonar:sonarLocs) {
-            board[sonar.row][sonar.col].distance = distFromNearestChest(sonar);
+        for (auto& sonar:sonars) {
+            board[sonar.row][sonar.col].distance = distFromNearestChest(sonar.pos);
         }
         return true;
     }
@@ -136,9 +136,9 @@ public:
 //        auto distances = std::vector<double>();
 //            distances.push_back(dist(sonar, chest));
         double smallest = 100;
-        for (auto& chest:chestLocs) {
-            if ((sonar- chest) < smallest)
-                smallest = sonar - chest;
+        for (auto& chest:chests) {
+            if ((sonar- chest.pos) < smallest)
+                smallest = sonar - chest.pos;
         }
         return static_cast<int>(std::round(smallest));
     }
@@ -146,8 +146,8 @@ public:
 
 private:
     Display board;
-    Positions chestLocs;
-    Positions sonarLocs;
+    std::vector<Chest> chests;
+    std::vector<Sonar> sonars;
     RandomGenerator randomGenerator;
 };
 

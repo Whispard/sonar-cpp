@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 enum class CellType{
@@ -12,6 +13,7 @@ struct Cell{
     int distance = 0;
 };
 
+//(row,col)
 struct Position {
     int row;
     int col;
