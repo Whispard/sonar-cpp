@@ -16,6 +16,7 @@ Chest::Chest(Position pos) :
 // factory making random list of chests
 std::vector<Chest>
 Chest::makeRandom(Config config, RandomGenerator &randomizer) {
+    // TODO: Use fp for shorter method
     auto result = std::vector<Chest>();
     for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
         auto newChest = Chest(Position{
@@ -30,5 +31,6 @@ Chest::makeRandom(Config config, RandomGenerator &randomizer) {
 
 int row;
 int col;
+// TODO: Show found and not found chests separately
 bool found;
 Position pos;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <random>
-#include <iostream>
 #include "RandomGenerator.h"
 
 RandomGenerator::RandomGenerator(double start, double end) {
@@ -10,7 +9,7 @@ RandomGenerator::RandomGenerator(double start, double end) {
     dist = std::uniform_real_distribution(start, end);
 }
 
-auto RandomGenerator::generate() {
+[[maybe_unused]] auto RandomGenerator::generate() {
     return static_cast<int>(std::round(dist(mt)));
 }
 

@@ -10,7 +10,7 @@ public:
     // TODO: use default args
     explicit RandomGenerator(double start, double end);
 
-    auto generate();
+    [[maybe_unused]] auto generate();
 
     int flipCoin();
 

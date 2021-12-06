@@ -53,6 +53,7 @@ void Board::markRangers() {
     }
 }
 
+// TODO: Add place randomly
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
     if (currentCell.kind != CellType::Empty)

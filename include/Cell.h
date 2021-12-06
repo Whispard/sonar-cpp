@@ -22,7 +22,7 @@ struct Cell {
     void getDrawing(int randomNum) {
         // this can be refactored to Cell func
         // since this is cell func common to all
-        // but idk how to convert from/to char int
+        // but IDK how to convert from/to char int
         char out = '0';
         int value = 0;
         switch (this->kind) {
@@ -45,7 +45,7 @@ struct Cell {
                 break;
             }
             case CellType::Ranger: {
-                // use simple array or fetch bla bla
+                // use simple array or fetch bla
 //                        auto rangeDecorations = std::vector({'*','8','='});
 //                        out = rangeDecorations[cell.distance % (rangeDecorations.size()-1)];
 //                        cell.kind = CellType::Empty;
