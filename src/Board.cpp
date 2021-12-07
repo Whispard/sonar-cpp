@@ -7,7 +7,7 @@
 
 using Display = std::vector<std::vector<Cell>>;
 
-Board::Board(Config config, RandomGenerator randomizer) :
+Board::Board(Config config, RandomGenerator& randomizer) :
         board{std::vector(config.rows, std::vector(config.cols, Cell{}))},
         randomGenerator{randomizer} {
     chests = Chest::makeRandom(config, randomizer);

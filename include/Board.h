@@ -12,7 +12,7 @@ using Display = std::vector<std::vector<Cell>>;
 
 class Board {
 public:
-    explicit Board(Config config, RandomGenerator randomizer);
+    explicit Board(Config config, RandomGenerator& randomizer);
 
     void markRanger(int x, int y, int d);
 
@@ -28,7 +28,7 @@ private:
     Display board;
     std::vector<Chest> chests;
     std::vector<Sonar> sonars;
-    RandomGenerator randomGenerator;
+    RandomGenerator& randomGenerator;
 
     bool checkOutOfBounds(int x, int y);
 };

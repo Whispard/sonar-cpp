@@ -4,7 +4,7 @@
 #include <Chest.h>
 #include "Position.h"
 #include "Config.h"
-#include "RandomGenerator.cpp"
+#include "RandomGenerator.h"
 
 Chest::Chest(Position pos) :
         pos{pos},
@@ -15,7 +15,7 @@ Chest::Chest(Position pos) :
 
 // factory making random list of chests
 std::vector<Chest>
-Chest::makeRandom(Config config, RandomGenerator &randomizer) {
+Chest::makeRandom(Config config, RandomGenerator& randomizer) {
     // TODO: Use fp for shorter method
     auto result = std::vector<Chest>();
     for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
@@ -32,5 +32,5 @@ Chest::makeRandom(Config config, RandomGenerator &randomizer) {
 int row;
 int col;
 // TODO: Show found and not found chests separately
-bool found;
+[[maybe_unused]] bool found;
 Position pos;

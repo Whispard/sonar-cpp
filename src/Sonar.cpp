@@ -9,7 +9,7 @@ Sonar::Sonar(Position pos) :
         row(pos.row),
         col(pos.col) {}
 
-int Sonar::distFromNearestChest(const std::vector<Chest> &chests) {
+int Sonar::distFromNearestChest(const std::vector<Chest> &chests) const {
     // TODO: use vector max directly
     double smallest = 100;
     for (auto &chest: chests) {

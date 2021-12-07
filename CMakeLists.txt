@@ -16,8 +16,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fmtlib effolkronium_random)
 
+#add_library(randomizer )
+
 add_executable(sonar_cpp src/main.cpp src/sonar.cpp src/board.cpp
-        src/chest.cpp
+        src/chest.cpp src/RandomGenerator.cpp
         src/cell.cpp include/Config.h include/Position.h
         include/Board.h include/Cell.h include/Chest.h include/RandomGenerator.h include/Sonar.h
         )

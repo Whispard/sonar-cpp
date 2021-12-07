@@ -1,22 +1,33 @@
 #pragma once
 
-#include <random>
 #include "RandomGenerator.h"
+#include "effolkronium/random.hpp"
 
-RandomGenerator::RandomGenerator(double start, double end) {
-    std::random_device rd;
-    mt = static_cast<std::mt19937>(rd());
-    dist = std::uniform_real_distribution(start, end);
+using Random = effolkronium::random_static;
+
+LibRandomGenerator::LibRandomGenerator() = default;
+
+bool LibRandomGenerator::flipCoin() {
+    return Random::get<bool>();
 }
 
-[[maybe_unused]] auto RandomGenerator::generate() {
-    return static_cast<int>(std::round(dist(mt)));
+int LibRandomGenerator::below(int end) {
+    return Random::get(0, end);
 }
 
-int RandomGenerator::flipCoin() {
-    return (std::round(dist(mt))) > 5.0;
+// TODO: expand double into generic types
+MockRandomGenerator::MockRandomGenerator(std::initializer_list<bool> sup_coins,
+                                         std::initializer_list<int> sup_belows):
+    coins{sup_coins},
+    belows{sup_belows},
+    pCoin{coins.begin()},
+    pBelows{belows.begin()}
+    {}
+
+bool MockRandomGenerator::flipCoin() {
+    return *pCoin++;
 }
 
-int RandomGenerator::below(int end) {
-    return static_cast<int>(std::floor(dist(mt) * end / 10.0 - 1));
+int MockRandomGenerator::below(int end) {
+    return *pBelows++;
 }

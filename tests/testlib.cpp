@@ -47,6 +47,7 @@ TEST_CASE("Position","[position]"){
     REQUIRE((p2-p1 - 5.0) < 0.1);
 }
 
+// TODO: Make use of mock randomizer for tests
 TEST_CASE("Chest","[chest]"){
     auto p = Position{4,5};
     auto c = Chest(p);
@@ -54,7 +55,7 @@ TEST_CASE("Chest","[chest]"){
     REQUIRE(c.pos.col == p.col);
 
     auto config = Config();
-    auto rnd = RandomGenerator();
+    auto rnd = LibRandomGenerator();
 
     auto chests = Chest::makeRandom(config,rnd);
     REQUIRE(chests.size() == config.totalChests);

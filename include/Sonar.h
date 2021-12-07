@@ -9,7 +9,7 @@ class Sonar {
 public:
     explicit Sonar(Position pos);
 
-    int distFromNearestChest(const std::vector<Chest> &chests);
+    int distFromNearestChest(const std::vector<Chest> &chests) const;
 
     int row;
     int col;

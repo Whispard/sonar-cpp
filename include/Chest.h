@@ -10,7 +10,7 @@ public:
     explicit Chest(Position pos);
 
     static std::vector<Chest>
-    makeRandom(Config config, RandomGenerator &randomizer);
+    makeRandom(Config config, RandomGenerator& randomizer);
 
     int row;
     int col;
