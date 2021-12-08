@@ -9,6 +9,7 @@ enum class CellType {
     Ranger
 };
 
+// Cell Kind & Display
 struct Cell {
     CellType kind = CellType::Empty;
     // TODO: Decouple this distance filed from here

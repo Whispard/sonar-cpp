@@ -56,6 +56,15 @@ void Board::markRangers() {
 // TODO: Add place randomly
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
+    if(currentCell.kind==CellType::Chest){
+        auto chest = std::find_if(chests.begin(), chests.end(),
+                     [&pos](Chest c){
+            return c.pos==pos;
+        });
+        chest->found = true;
+        // other modifications?
+        return false;
+    }
     if (currentCell.kind != CellType::Empty)
         return false;
 

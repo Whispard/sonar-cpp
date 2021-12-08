@@ -14,6 +14,7 @@ public:
 
     int row;
     int col;
+    // TODO: Show found and not found chests separately
     bool found;
     Position pos;
 };

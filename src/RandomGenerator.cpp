@@ -12,7 +12,7 @@ bool LibRandomGenerator::flipCoin() {
 }
 
 int LibRandomGenerator::below(int end) {
-    return Random::get(0, end);
+    return Random::get(0, end-1);
 }
 
 // TODO: expand double into generic types

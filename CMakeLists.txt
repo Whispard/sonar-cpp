@@ -16,12 +16,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fmtlib effolkronium_random)
 
-#add_library(randomizer )
+add_library(randomizer src/RandomGenerator.cpp include/RandomGenerator.h)
+target_link_libraries(randomizer PRIVATE effolkronium_random )
 
 add_executable(sonar_cpp src/main.cpp src/sonar.cpp src/board.cpp
-        src/chest.cpp src/RandomGenerator.cpp
+        src/chest.cpp
         src/cell.cpp include/Config.h include/Position.h
-        include/Board.h include/Cell.h include/Chest.h include/RandomGenerator.h include/Sonar.h
+        include/Board.h include/Cell.h include/Chest.h  include/Sonar.h
         )
 #
 #add_library(utils src/cell.cpp include/Config.h include/Position.h)
@@ -31,7 +32,7 @@ add_executable(sonar_cpp src/main.cpp src/sonar.cpp src/board.cpp
 #        include/Board.h include/Chest.h include/Sonar.h
 #        )
 
-target_link_libraries(sonar_cpp PRIVATE fmt::fmt effolkronium_random)
+target_link_libraries(sonar_cpp PRIVATE fmt::fmt randomizer)
 
 
 add_subdirectory(tests)

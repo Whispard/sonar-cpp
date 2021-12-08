@@ -25,26 +25,48 @@ TEST_CASE("Quick Test","[main]"){
 }
 
 TEST_CASE("Random generator","[randomizer]"){
-    auto rnd = RandomGenerator();
-
-    SECTION("flip coin"){
-        REQUIRE(rnd.flipCoin()>-1);
-        REQUIRE(rnd.flipCoin()<1);
-    }
+    auto rnd = LibRandomGenerator();
 
     SECTION("below"){
         REQUIRE(rnd.below(10)<10);
         REQUIRE(rnd.below(2)<2);
         REQUIRE(rnd.below(2)<2);
     }
+
+    SECTION("coin"){
+        bool c = false;
+        while(!(c = rnd.flipCoin()));
+        while((c = !rnd.flipCoin()));
+    }
+
+    SECTION("mock") {
+        auto coins = {false, true, true};
+        auto belows = {2, 3, 4};
+        auto gen = MockRandomGenerator(coins, belows);
+        REQUIRE(gen.flipCoin() == false);
+        REQUIRE(gen.below(3) == 2);
+        REQUIRE(gen.flipCoin() == true);
+        REQUIRE(gen.below(3) == 3);
+        REQUIRE(gen.below(3) == 4);
+        REQUIRE(gen.flipCoin() == true);
+    }
+
 }
 
 TEST_CASE("Position","[position]"){
     auto p1 = Position{4,5};
     auto p2 = Position{7,9};
+    auto p3 = Position{7,9};
 
     REQUIRE((p1-p2 - 5.0) < 0.1);
     REQUIRE((p2-p1 - 5.0) < 0.1);
+    REQUIRE(!(p1==p2));
+    REQUIRE(p2==p3);
+
+    auto conf = Config{};
+    auto pf = PositionFactory{conf};
+    auto p4 = pf.makePosition(10,20);
+    // TODO test exception with catch
 }
 
 // TODO: Make use of mock randomizer for tests
@@ -76,5 +98,9 @@ TEST_CASE("Sonar","[sonar]"){
 
     auto p2 = Position{4,5};
     auto c = Chest(p2);
+
+}
+
+TEST_CASE("Board","[board]"){
 
 }

@@ -6,12 +6,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(catch)
 
+
 add_executable(testlib testlib.cpp
          ../src/sonar.cpp ../src/board.cpp
         ../src/chest.cpp
         ../src/cell.cpp ../include/Config.h ../include/Position.h
-        ../include/Board.h ../include/Cell.h ../include/Chest.h ../include/RandomGenerator.h ../include/Sonar.h)
+        ../include/Board.h ../include/Cell.h ../include/Chest.h  ../include/Sonar.h)
 
-target_link_libraries(testlib PRIVATE Catch2::Catch2)
+#this is from main file
+target_link_libraries(testlib PRIVATE Catch2::Catch2 randomizer)
 
 add_test(NAME testlibtest COMMAND testlib)
