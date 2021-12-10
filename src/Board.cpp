@@ -13,23 +13,19 @@
  */
 
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
-//        board{std::vector(config.rows, std::vector(config.cols,C{}))},
         randomGenerator{randomizer},
         screen(screen){
     chests = Chest::makeRandom(config, randomizer);
     for (int i=0;i<config.rows;i++) {
         auto newRow = std::vector<std::unique_ptr<Cell>>();
         for (int j = 0; j < config.cols; ++j) {
-            newRow.push_back(std::make_unique<Cell>());
+            newRow.push_back(std::make_unique<Cell>(randomizer.flipCoin()?CellType::Empty:CellType::Empty2));
         }
         board.push_back(std::move(newRow));
     }
-    for (auto& row:board)
-        for(auto& cell:row)
-            cell->kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;
 
     for (auto &chest: chests) {
-        board[chest.row][chest.col]->kind = CellType::Chest;
+        board[chest.row][chest.col] = std::make_unique<Chest>(CellType::Chest,chest.pos);
     }
 }
 
@@ -75,6 +71,7 @@ void Board::markRangers() {
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
     if(currentCell->kind==CellType::Chest){
+        // TODO: use cast instead
         auto chest = std::find_if(chests.begin(), chests.end(),
                      [&pos](Chest c){
             return c.pos==pos;
