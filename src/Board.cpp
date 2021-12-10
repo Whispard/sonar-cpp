@@ -5,21 +5,27 @@
 #include "Chest.h"
 #include "Cell.h"
 
+/*
+ * OPTIONS
+ * 1) USE STD VARIANT NOPE
+ * 2) USE VECS OF SMART POINTERS
+ * 3) USE WRAPPER CLASS
+ */
+
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
-        board{std::vector(config.rows, std::vector(config.cols,Cell{}))},
+//        board{std::vector(config.rows, std::vector(config.cols,C{}))},
         randomGenerator{randomizer},
         screen(screen){
     chests = Chest::makeRandom(config, randomizer);
-//    for (int i=0;i<config.rows;i++) {
-//        auto newRow = std::vector<>;
-//        for (int j = 0; j < config.cols; ++j) {
-//
-//        }
-//        auto newRow = std::vector(config.cols, std::make_unique<Cell>());
-//        board.insert(board.end(),
-//                     std::make_move_iterator(newRow.begin()),
-//                     std::make_move_iterator(newRow.end()));
-//    }
+    for (int i=0;i<config.rows;i++) {
+        auto newRow = std::vector<std::unique_ptr<Cell>>();
+        for (int j = 0; j < config.cols; ++j) {
+            newRow.push_back(std::make_unique<Cell>());
+        }
+        board.insert(board.end(),
+                     std::make_move_iterator(newRow.begin()),
+                     std::make_move_iterator(newRow.end()));
+    }
     for (auto& row:board)
         for(auto& cell:row)
             cell.kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;

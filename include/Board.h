@@ -9,8 +9,8 @@
 #include <iostream>
 #include "screen.h"
 
-using Entity = Cell;
-using Display = std::vector<std::vector<Entity>>;
+// this should have been another way around but change that later
+using Display = std::vector<std::vector<std::unique_ptr<Cell>>>;
 
 class Board {
 public:
@@ -36,3 +36,10 @@ private:
     bool checkOutOfBounds(int x, int y);
 };
 
+//class Vector2D{
+//public:
+//
+//private:
+//    std::vector<std::vector<Entity>> innerVec;
+//
+//};
