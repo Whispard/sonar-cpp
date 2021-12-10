@@ -30,7 +30,7 @@ void Board::markRanger(int x, int y, int d) {
 
 // call display on every cell
 void Board::display(Position pos) {
-    markRangers();
+//    markRangers();
     screen.clearScreen();
     for (auto &row: board) {
         for (auto &cell: row) {
@@ -71,7 +71,7 @@ bool Board::placeAt(Position pos) {
         // other modifications?
         return false;
     }
-    if (currentCell.kind != CellType::Empty)
+    if (currentCell.kind != CellType::Empty || currentCell.kind != CellType::Empty2)
         return false;
 
     currentCell = Cell{

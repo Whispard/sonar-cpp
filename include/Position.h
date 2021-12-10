@@ -10,11 +10,24 @@ struct Position {
     int row;
     int col;
 
+    inline static Config config;
+    static void setLimits(Config config1){
+        config = config1;
+    }
+
     Position(int row, int col):
         row{row},
         col{col}
     {
+        if (!(row < config.rows &&
+            col < config.cols &&
+            row >= 0 &&
+            col >= 0)){
+            throw std::logic_error("Invalid pos parameters");
+        }
     }
+
+
 
 
     // TODO: Use std::distance
@@ -28,26 +41,4 @@ struct Position {
     bool operator==(Position other) const{
         return this->row==other.row && this->col==other.col;
     }
-};
-
-// TODO: Switch from factory to static attributes
-class PositionFactory{
-public:
-    explicit PositionFactory(Config& conf):
-        config{conf}
-    {}
-
-    Position makePosition(int row, int col) const{
-       if (row < config.rows &&
-         col < config.cols &&
-         row >= 0 &&
-         col >= 0){
-           return Position{row,col};
-       }else{
-           throw std::logic_error("Incorrect");
-       }
-    }
-
-private:
-    Config config;
 };

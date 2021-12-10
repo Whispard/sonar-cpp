@@ -64,8 +64,8 @@ TEST_CASE("Position","[position]"){
     REQUIRE(p2==p3);
 
     auto conf = Config{};
-    auto pf = PositionFactory{conf};
-    auto p4 = pf.makePosition(10,20);
+    Position::setLimits(conf);
+    auto p4 = Position{10,20};
     // TODO test exception with catch
 }
 
