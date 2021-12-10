@@ -9,7 +9,8 @@
 #include <iostream>
 #include "screen.h"
 
-using Display = std::vector<std::vector<Cell>>;
+using Entity = Cell;
+using Display = std::vector<std::vector<Entity>>;
 
 class Board {
 public:

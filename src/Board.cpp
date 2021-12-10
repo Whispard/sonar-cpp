@@ -5,13 +5,21 @@
 #include "Chest.h"
 #include "Cell.h"
 
-using Display = std::vector<std::vector<Cell>>;
-
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         board{std::vector(config.rows, std::vector(config.cols,Cell{}))},
         randomGenerator{randomizer},
         screen(screen){
     chests = Chest::makeRandom(config, randomizer);
+//    for (int i=0;i<config.rows;i++) {
+//        auto newRow = std::vector<>;
+//        for (int j = 0; j < config.cols; ++j) {
+//
+//        }
+//        auto newRow = std::vector(config.cols, std::make_unique<Cell>());
+//        board.insert(board.end(),
+//                     std::make_move_iterator(newRow.begin()),
+//                     std::make_move_iterator(newRow.end()));
+//    }
     for (auto& row:board)
         for(auto& cell:row)
             cell.kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;
