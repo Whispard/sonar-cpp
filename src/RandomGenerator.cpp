@@ -16,6 +16,7 @@ int LibRandomGenerator::below(int end) {
 }
 
 // TODO: expand double into generic types
+// This won't work as sea uses all coins
 MockRandomGenerator::MockRandomGenerator(std::initializer_list<bool> sup_coins,
                                          std::initializer_list<int> sup_belows):
     coins{sup_coins},

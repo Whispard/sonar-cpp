@@ -4,6 +4,7 @@
 
 enum class CellType {
     Empty,
+    Empty2,
     Chest,
     Sonar,
     Ranger
@@ -20,22 +21,24 @@ struct Cell {
         this->distance = d;
     }
 
-    void getDrawing(int randomNum) {
+    std::string getDrawing(int randomNum) {
+        using namespace std::literals::string_literals;
         // this can be refactored to Cell func
         // since this is cell func common to all
         // but IDK how to convert from/to char int
-        char out = '0';
         int value = 0;
+        std::string out = ""s;
         switch (this->kind) {
             case CellType::Empty: {
-                if (randomNum)
-                    out = '_';//'~';
-                else
-                    out = '_';//'`';
+                out = "_"s;//"~"s;
+                break;
+            }
+            case CellType::Empty2:{
+                out = "_"s;//"`"s;
                 break;
             }
             case CellType::Chest: {
-                out = 'C';
+                out = "C"s;
                 break;
             }
             case CellType::Sonar: {
@@ -46,18 +49,12 @@ struct Cell {
                 break;
             }
             case CellType::Ranger: {
-                // use simple array or fetch bla
-//                        auto rangeDecorations = std::vector({'*','8','='});
-//                        out = rangeDecorations[cell.distance % (rangeDecorations.size()-1)];
-//                        cell.kind = CellType::Empty;
+                // TODO: Fix this implicit convo to char
                 out = this->distance + '0';
                 break;
             }
         }
-        if (value == 0)
-            std::cout << out;
-        else
-            std::cout << value;
+        return out;
     }
 };
 

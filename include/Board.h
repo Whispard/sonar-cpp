@@ -7,16 +7,17 @@
 #include "Cell.h"
 #include <vector>
 #include <iostream>
+#include "screen.h"
 
 using Display = std::vector<std::vector<Cell>>;
 
 class Board {
 public:
-    explicit Board(Config config, RandomGenerator& randomizer);
+    explicit Board(Config config, RandomGenerator& randomizer, Screen& screen);
 
     void markRanger(int x, int y, int d);
 
-    void display();
+    void display(Position pos);
 
     void markRangers();
 
@@ -24,11 +25,12 @@ public:
 
     Cell &getCell(Position pos);
 
-private:
     Display board;
+private:
     std::vector<Chest> chests;
     std::vector<Sonar> sonars;
     RandomGenerator& randomGenerator;
+    Screen& screen;
 
     bool checkOutOfBounds(int x, int y);
 };

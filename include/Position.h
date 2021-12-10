@@ -30,6 +30,7 @@ struct Position {
     }
 };
 
+// TODO: Switch from factory to static attributes
 class PositionFactory{
 public:
     explicit PositionFactory(Config& conf):

@@ -1,5 +1,5 @@
 #include <vector>
-#include <iostream>
+#include <screen.h>
 #include "Board.h"
 #include "RandomGenerator.h"
 #include "Chest.h"
@@ -7,10 +7,14 @@
 
 using Display = std::vector<std::vector<Cell>>;
 
-Board::Board(Config config, RandomGenerator& randomizer) :
-        board{std::vector(config.rows, std::vector(config.cols, Cell{}))},
-        randomGenerator{randomizer} {
+Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
+        board{std::vector(config.rows, std::vector(config.cols,Cell{}))},
+        randomGenerator{randomizer},
+        screen(screen){
     chests = Chest::makeRandom(config, randomizer);
+    for (auto& row:board)
+        for(auto& cell:row)
+            cell.kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;
 
     for (auto &chest: chests) {
         board[chest.row][chest.col].kind = CellType::Chest;
@@ -23,16 +27,18 @@ void Board::markRanger(int x, int y, int d) {
         board[y][x].showRange(d);
 }
 
+
 // call display on every cell
-void Board::display() {
+void Board::display(Position pos) {
     markRangers();
+    screen.clearScreen();
     for (auto &row: board) {
         for (auto &cell: row) {
-            cell.getDrawing(randomGenerator.flipCoin());
+            screen.print(cell.getDrawing(randomGenerator.flipCoin()).c_str());
         }
-        std::cout << std::endl;
+        screen.print("\n");
     }
-    std::cout << std::endl;
+    screen.moveTo(pos);
 }
 
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class CellType {
     Empty,
@@ -13,6 +14,6 @@ struct Cell {
 
     void showRange(int d);
 
-    void getDrawing(int randomNum);
+    std::string getDrawing(int randomNum);
 };
 

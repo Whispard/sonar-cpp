@@ -23,7 +23,8 @@ add_executable(sonar_cpp src/main.cpp src/sonar.cpp src/board.cpp
         src/chest.cpp
         src/cell.cpp include/Config.h include/Position.h
         include/Board.h include/Cell.h include/Chest.h  include/Sonar.h
-        )
+        src/screen.cpp include/screen.h)
+
 #
 #add_library(utils src/cell.cpp include/Config.h include/Position.h)
 #
@@ -32,7 +33,16 @@ add_executable(sonar_cpp src/main.cpp src/sonar.cpp src/board.cpp
 #        include/Board.h include/Chest.h include/Sonar.h
 #        )
 
-target_link_libraries(sonar_cpp PRIVATE fmt::fmt randomizer)
+#target_link_libraries(sonar_cpp PRIVATE fmt::fmt randomizer)
 
+# TODO: break scripts into parts or atleast into src
 
+#Code to include pdcurses
+find_path(PDC_INCLUDES curses.h)
+find_library(PDC_LIBS pdcurses REQUIRED)
+
+# attention deps moved here!
+target_include_directories(sonar_cpp PRIVATE ${PDC_INCLUDES})
+target_link_libraries(sonar_cpp ${PDC_LIBS} fmt::fmt randomizer)
+#####################
 add_subdirectory(tests)
