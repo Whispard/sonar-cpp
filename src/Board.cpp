@@ -22,23 +22,21 @@ Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         for (int j = 0; j < config.cols; ++j) {
             newRow.push_back(std::make_unique<Cell>());
         }
-        board.insert(board.end(),
-                     std::make_move_iterator(newRow.begin()),
-                     std::make_move_iterator(newRow.end()));
+        board.push_back(std::move(newRow));
     }
     for (auto& row:board)
         for(auto& cell:row)
-            cell.kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;
+            cell->kind = randomizer.flipCoin()?CellType::Empty:CellType::Empty2;
 
     for (auto &chest: chests) {
-        board[chest.row][chest.col].kind = CellType::Chest;
+        board[chest.row][chest.col]->kind = CellType::Chest;
     }
 }
 
 // mark a cell as ranger
 void Board::markRanger(int x, int y, int d) {
     if (!checkOutOfBounds(x, y))
-        board[y][x].showRange(d);
+        board[y][x]->showRange(d);
 }
 
 
@@ -48,7 +46,7 @@ void Board::display(Position pos) {
     screen.clearScreen();
     for (auto &row: board) {
         for (auto &cell: row) {
-            screen.print(cell.getDrawing(randomGenerator.flipCoin()).c_str());
+            screen.print(cell->getDrawing(randomGenerator.flipCoin()).c_str());
         }
         screen.print("\n");
     }
@@ -60,7 +58,7 @@ void Board::markRangers() {
     for (auto &sonar: sonars) {
         auto ox = sonar.col;
         auto oy = sonar.row;
-        auto d = getCell(sonar.pos).distance;
+        auto d = getCell(sonar.pos)->distance;
 
         for (int p = ox - d; p <= ox + d; ++p) {
             markRanger(p, oy - d, d);
@@ -76,7 +74,7 @@ void Board::markRangers() {
 // TODO: Add place randomly
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
-    if(currentCell.kind==CellType::Chest){
+    if(currentCell->kind==CellType::Chest){
         auto chest = std::find_if(chests.begin(), chests.end(),
                      [&pos](Chest c){
             return c.pos==pos;
@@ -85,23 +83,21 @@ bool Board::placeAt(Position pos) {
         // other modifications?
         return false;
     }
-    if (currentCell.kind != CellType::Empty || currentCell.kind != CellType::Empty2)
+    if (currentCell->kind != CellType::Empty && currentCell->kind != CellType::Empty2)
         return false;
 
-    currentCell = Cell{
-            CellType::Sonar,
-            0
-    };
+    currentCell->kind = CellType::Sonar;
+    currentCell->distance = 0;
     // making Sonar from pos
     sonars.emplace_back(pos);
 
     for (auto &sonar: sonars) {
-        board[sonar.row][sonar.col].distance = sonar.distFromNearestChest(chests);
+        board[sonar.row][sonar.col]->distance = sonar.distFromNearestChest(chests);
     }
     return true;
 }
 
-Cell &Board::getCell(Position pos) {
+std::unique_ptr<Cell>& Board::getCell(Position pos) {
     return board[pos.row][pos.col];
 }
 

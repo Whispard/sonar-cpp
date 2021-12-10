@@ -24,7 +24,7 @@ public:
 
     bool placeAt(Position pos);
 
-    Cell &getCell(Position pos);
+    std::unique_ptr<Cell>& getCell(Position pos);
 
     Display board;
 private:
