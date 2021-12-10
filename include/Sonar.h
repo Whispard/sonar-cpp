@@ -5,7 +5,7 @@
 #include "Position.h"
 #include "Chest.h"
 
-class Sonar {
+class Sonar: public Cell {
 public:
     explicit Sonar(Position pos);
 
@@ -14,4 +14,5 @@ public:
     int row;
     int col;
     Position pos;
+    ~Sonar() override = default;
 };

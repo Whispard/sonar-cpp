@@ -35,11 +35,3 @@ private:
 
     bool checkOutOfBounds(int x, int y);
 };
-
-//class Vector2D{
-//public:
-//
-//private:
-//    std::vector<std::vector<Entity>> innerVec;
-//
-//};

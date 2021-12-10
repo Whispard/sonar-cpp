@@ -15,15 +15,16 @@
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         randomGenerator{randomizer},
         screen(screen){
-    chests = Chest::makeRandom(config, randomizer);
     for (int i=0;i<config.rows;i++) {
         auto newRow = std::vector<std::unique_ptr<Cell>>();
         for (int j = 0; j < config.cols; ++j) {
-            newRow.push_back(std::make_unique<Cell>(randomizer.flipCoin()?CellType::Empty:CellType::Empty2));
+            newRow.push_back(std::make_unique<EmptyCell>(randomizer.flipCoin()?CellType::Empty:CellType::Empty2));
         }
         board.push_back(std::move(newRow));
     }
 
+    // TODO: This isn't speciality of chests, move to Pos
+    chests = Chest::makeRandom(config, randomizer);
     for (auto &chest: chests) {
         board[chest.row][chest.col] = std::make_unique<Chest>(CellType::Chest,chest.pos);
     }

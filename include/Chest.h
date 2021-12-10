@@ -16,7 +16,7 @@ public:
         col(pos.col),
         found(false){}
 
-        CellType kind;
+    CellType kind;
     static std::vector<Chest>
     makeRandom(Config config, RandomGenerator& randomizer);
 
@@ -25,4 +25,5 @@ public:
     // TODO: Show found and not found chests separately
     bool found;
     Position pos;
+    ~Chest() override = default;
 };
