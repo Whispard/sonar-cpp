@@ -5,9 +5,11 @@
 #include "Chest.h"
 #include "Cell.h"
 
+
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         randomGenerator{randomizer},
         screen(screen){
+//    mvprintw(2,2,"2");
     for (int i=0;i<config.rows;i++) {
         auto newRow = std::vector<std::unique_ptr<Cell>>();
         for (int j = 0; j < config.cols; ++j) {
