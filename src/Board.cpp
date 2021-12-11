@@ -9,7 +9,6 @@
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         randomGenerator{randomizer},
         screen(screen){
-//    mvprintw(2,2,"2");
     for (int i=0;i<config.rows;i++) {
         auto newRow = std::vector<std::unique_ptr<Cell>>();
         for (int j = 0; j < config.cols; ++j) {
@@ -27,14 +26,17 @@ Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
 // mark a cell as ranger
 void Board::markRanger(int x, int y, int d) {
     if (!checkOutOfBounds(x, y)) {
-//        board[y][x]->showRange(d);
+        if(board[y][x]->kind == CellType::Empty) {
+            auto ranger = dynamic_cast<EmptyCell*>(board[y][x].get());
+            ranger->showRange(d);
+        }
     }
 }
 
 
 // call display on every cell
 void Board::display(Position pos) {
-//    markRangers();
+    markRangers();
     screen.clearScreen();
     for (auto &row: board) {
         for (auto &cell: row) {
@@ -47,20 +49,20 @@ void Board::display(Position pos) {
 
 
 void Board::markRangers() {
-//    for (auto &sonar: sonars) {
-//        auto ox = sonar.col;
-//        auto oy = sonar.row;
-//        auto d = 2;//getCell(sonar.pos)->distance;
-//
-//        for (int p = ox - d; p <= ox + d; ++p) {
-//            markRanger(p, oy - d, d);
-//            markRanger(p, oy + d, d);
-//        }
-//        for (int p = oy - d; p < oy + d; ++p) {
-//            markRanger(ox - d, p, d);
-//            markRanger(ox + d, p, d);
-//        }
-//    }
+    for (auto &sonar: Sonar::sonars) {
+        auto ox = sonar->col;
+        auto oy = sonar->row;
+        auto d = sonar->distance;
+
+        for (int p = ox - d; p <= ox + d; ++p) {
+            markRanger(p, oy - d, d);
+            markRanger(p, oy + d, d);
+        }
+        for (int p = oy - d; p < oy + d; ++p) {
+            markRanger(ox - d, p, d);
+            markRanger(ox + d, p, d);
+        }
+    }
 }
 
 // TODO: Add place randomly
@@ -69,14 +71,6 @@ bool Board::placeAt(Position pos) {
 
     if (currentCell->kind == CellType::Sonar)
         return false;
-//    if(currentCell->kind==CellType::Chest){
-//        auto chest = dynamic_cast<Chest*>(currentCell.get());
-//        chest->found = true;
-        // other modifications?
-//        currentCell = std::make_unique<Sonar>(pos);
-
-//        return false;
-//    }
     currentCell = std::make_unique<Sonar>(pos);
 
 

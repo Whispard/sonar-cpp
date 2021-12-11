@@ -3,7 +3,7 @@
 struct Config {
     int rows = 15;
     int cols = 60;
-    int totalChests = 300;
+    int totalChests = 15;
     int totalSonars = 18;
 
     explicit Config()= default;

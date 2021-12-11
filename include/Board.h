@@ -1,12 +1,13 @@
 #pragma once
 
+#include <vector>
+#include <iostream>
+
 #include "Config.h"
 #include "RandomGenerator.h"
 #include "Sonar.h"
 #include "Chest.h"
 #include "Cell.h"
-#include <vector>
-#include <iostream>
 #include "screen.h"
 
 // this should have been another way around but change that later
