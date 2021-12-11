@@ -28,8 +28,6 @@ public:
 
     Display board;
 private:
-//    std::vector<Chest> chests;
-//    std::vector<Sonar> sonars;
     RandomGenerator& randomGenerator;
     Screen& screen;
 

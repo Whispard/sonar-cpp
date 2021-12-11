@@ -5,13 +5,6 @@
 #include "Chest.h"
 #include "Cell.h"
 
-/*
- * OPTIONS
- * 1) USE STD VARIANT NOPE
- * 2) USE VECS OF SMART POINTERS
- * 3) USE WRAPPER CLASS
- */
-
 Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         randomGenerator{randomizer},
         screen(screen){
@@ -23,10 +16,9 @@ Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         board.push_back(std::move(newRow));
     }
 
-    // TODO: This isn't speciality of chests, move to Pos
-    auto randPositions = Chest::makeRandom(config, randomizer);
-    for (auto &chest: randPositions) {
-        board[chest.row][chest.col] = std::make_unique<Chest>(chest.pos);
+    auto randPositions = Position::makeRandom(randomizer);
+    for (auto &chestPos: randPositions) {
+        board[chestPos.row][chestPos.col] = std::make_unique<Chest>(chestPos,randomizer.flipCoin()?EmptyType::E:EmptyType::F);
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include "Config.h"
+#include "RandomGenerator.h"
 #include <stdexcept>
 
 //(row,col)
@@ -28,7 +29,24 @@ struct Position {
     }
 
 
-
+    static std::vector<Position> makeRandom(RandomGenerator& randomizer){
+        // TODO: Use fp for shorter method
+        auto result = std::vector<Position>();
+        Position::setLimits(config);
+        for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
+            auto newPos = Position{
+                    randomizer.below(config.rows),
+                    randomizer.below(config.cols)
+            };
+            //Handle if Position already exists
+            if(std::find(result.begin(), result.end(), newPos)!=result.end()){
+                chestsPlaced--;
+                continue;
+            }
+            result.push_back(newPos);
+        }
+        return result;
+    }
 
 
 

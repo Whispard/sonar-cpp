@@ -17,21 +17,19 @@ enum class EmptyType{
 
 // Cell Kind & Display
 struct Cell {
+    // TODO: Use pos from base cell instead
     Cell() = default;
     CellType kind = CellType::Empty;
-    // TODO: Decouple this distance filed from here
-    //int distance = 0;
-
-
 
     [[nodiscard]] std::string getDrawing(int randomNum) const;
     virtual ~Cell()= default;;
 };
 
 struct EmptyCell : public Cell{
-//    CellType kind = CellType::Empty;
     EmptyType emp ;
-    explicit EmptyCell(EmptyType e):emp{e}{};
+    explicit EmptyCell(EmptyType e):emp{e}{
+        kind = CellType::Empty;
+    };
     void showRange(int d) ;
 
 

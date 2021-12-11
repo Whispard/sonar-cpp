@@ -3,11 +3,11 @@
 #include <Chest.h>
 #include "Position.h"
 
-Chest::Chest(Position pos) :
+Chest::Chest(Position pos,EmptyType emp) :
         pos{pos},
         row(pos.row),
         col(pos.col),
-        found(false) {
+        emp{emp}{
     kind = CellType::Chest;
 }
 
