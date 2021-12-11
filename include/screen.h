@@ -20,7 +20,7 @@ protected:
     Config& config;
 };
 
-
+// TODO: Split into declaration and definition
 class CursesScreen: public Screen{
 public:
     explicit CursesScreen(Config& config):
@@ -29,7 +29,7 @@ public:
         keypad(stdscr, true);
         noecho();
         start_color(); /* Start color */
-        init_pair(1, COLOR_GREEN, COLOR_BLACK);
+        init_pair(1, COLOR_BLUE, COLOR_WHITE);
     }
 
     void print(const char* c) override{
@@ -77,6 +77,7 @@ public:
         getch();
         endwin();
     }
+
 };
 /*
 class ConsoleScreen: public Screen{

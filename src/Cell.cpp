@@ -21,22 +21,26 @@ std::string Cell::getDrawing(int randomNum) const {
             // the problem is it is sonar but it is marked as kind = empty
             // means defaults are incorrect
             if(emptyCell->emp==EmptyType::E) {
-                out = "_"s;//"~"s;
+                out = "~"s;
             }else{
-            out = "2"s;}
+                out = "`"s;}
             }
             break;
         case CellType::Chest: {
-            out = "C"s;
-            break;
+            auto chest = dynamic_cast<const Chest*>(this);
+            if(chest->emp==EmptyType::E) {
+                out = "~"s;
+            }else{
+                out = "`"s;}
         }
+            break;
         case CellType::Sonar: {
             auto sonar = dynamic_cast<const Sonar*>(this);
             if (sonar->distance < 10)
                 out = std::to_string(sonar->distance);
             else
                 out = std::to_string(0);
-            out = "S"s;
+//            out = "S"s;
             break;
         }
         case CellType::Ranger: {

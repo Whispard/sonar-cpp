@@ -12,6 +12,7 @@ public:
     int row;
     int col;
     Position pos;
+    EmptyType emp;
 //    kind = CellType::Chest;
     bool found;
 //    Chest(CellType kind,Position pos):
@@ -31,6 +32,7 @@ public:
                     randomizer.below(config.cols)
             };
             auto newChest = Chest(newPos);
+            newChest.emp = randomizer.flipCoin()?EmptyType::E : EmptyType::F;
             // TODO: Handle when chest already exists
             result.push_back(newChest);
         }

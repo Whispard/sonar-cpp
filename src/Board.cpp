@@ -72,17 +72,19 @@ void Board::markRangers() {
 // TODO: Add place randomly
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
-    if(currentCell->kind==CellType::Chest){
-        // TODO: use cast instead
-        auto chest = dynamic_cast<Chest*>(currentCell.get());
-        chest->found = true;
-        // other modifications?
-        return false;
-    }
-    if (currentCell->kind != CellType::Empty)
-        return false;
 
+    if (currentCell->kind == CellType::Sonar)
+        return false;
+//    if(currentCell->kind==CellType::Chest){
+//        auto chest = dynamic_cast<Chest*>(currentCell.get());
+//        chest->found = true;
+        // other modifications?
+//        currentCell = std::make_unique<Sonar>(pos);
+
+//        return false;
+//    }
     currentCell = std::make_unique<Sonar>(pos);
+
 
     // fine way to solve this is just make list of all positions and sonars
     // we can snatch objs
@@ -97,7 +99,7 @@ bool Board::placeAt(Position pos) {
             }
         });
     });
-//    Sonar::updateAll(chests);
+    Sonar::updateAll(chests);
     return true;
 }
 
