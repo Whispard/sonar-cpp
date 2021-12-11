@@ -12,9 +12,9 @@ public:
     Position pos;
     int distance = 0;
     inline static std::vector<std::unique_ptr<Sonar>> sonars{};
-    CellType kind = CellType::Sonar;
+//    CellType kind = CellType::Sonar;
     explicit Sonar(Position pos);
-    static void updateAll(const std::vector<std::unique_ptr<Chest>>& chests);
-    [[nodiscard]] int distFromNearestChest(const std::vector<std::unique_ptr<Chest>> &chests) const;
+    static void updateAll(const std::vector<Position>& chests);
+    [[nodiscard]] int distFromNearestChest(const std::vector<Position> &chests) const;
     ~Sonar() override = default;
 };

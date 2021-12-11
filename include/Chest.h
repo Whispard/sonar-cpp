@@ -12,7 +12,7 @@ public:
     int row;
     int col;
     Position pos;
-    CellType kind = CellType::Chest;
+//    kind = CellType::Chest;
     bool found;
 //    Chest(CellType kind,Position pos):
 //        kind{kind},

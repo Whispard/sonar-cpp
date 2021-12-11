@@ -29,7 +29,7 @@ struct Cell {
 };
 
 struct EmptyCell : public Cell{
-    CellType kind = CellType::Empty;
+//    CellType kind = CellType::Empty;
     EmptyType emp ;
     explicit EmptyCell(EmptyType e):emp{e}{};
     void showRange(int d) ;

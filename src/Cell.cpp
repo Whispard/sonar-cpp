@@ -18,6 +18,8 @@ std::string Cell::getDrawing(int randomNum) const {
     switch (this->kind) {
         case CellType::Empty: {
             auto emptyCell = dynamic_cast<const EmptyCell*>(this);
+            // the problem is it is sonar but it is marked as kind = empty
+            // means defaults are incorrect
             if(emptyCell->emp==EmptyType::E) {
                 out = "_"s;//"~"s;
             }else{

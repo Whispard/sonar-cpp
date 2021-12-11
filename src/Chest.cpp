@@ -7,5 +7,7 @@ Chest::Chest(Position pos) :
         pos{pos},
         row(pos.row),
         col(pos.col),
-        found(false) {}
+        found(false) {
+    kind = CellType::Chest;
+}
 

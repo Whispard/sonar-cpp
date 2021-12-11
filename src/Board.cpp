@@ -87,10 +87,14 @@ bool Board::placeAt(Position pos) {
     // fine way to solve this is just make list of all positions and sonars
     // we can snatch objs
 
-    auto chests = std::vector<std::reference_wrapper<std::unique_ptr<Chest>>>();
-    std::for_each(board.begin(), board.end(), [&chests](auto row){
-        std::for_each(row.begin(),row.end(),[&chests](auto cell){
-            chests.push_back(std::reference_wrapper<std::unique_ptr<Chest>>(cell));
+    auto chests = std::vector<Position>();
+    std::for_each(board.begin(), board.end(), [&](auto& row){
+        std::for_each(row.begin(),row.end(),[&](const std::unique_ptr<Cell>& cell){
+            screen.print(cell->kind==CellType::Chest?"1":"0");
+            if(cell->kind == CellType::Chest) {
+                auto c = dynamic_cast<Chest *>(cell.get());
+                chests.push_back(c->pos);
+            }
         });
     });
 //    Sonar::updateAll(chests);
