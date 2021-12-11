@@ -30,6 +30,8 @@ struct Position {
 
 
 
+
+
     // TODO: Use std::distance
     double operator-(Position other) const {
         return std::sqrt(

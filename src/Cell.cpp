@@ -2,8 +2,9 @@
 
 #include <string>
 #include <Cell.h>
+#include <Sonar.h>
 
-void Cell::showRange(int d) {
+void EmptyCell::showRange(int d) {
     this->kind = CellType::Ranger;
     this->distance = d;
 }
@@ -16,20 +17,21 @@ std::string Cell::getDrawing(int randomNum) const {
     std::string out = ""s;
     switch (this->kind) {
         case CellType::Empty: {
-            out = "_"s;//"~"s;
+            auto emptyCell = dynamic_cast<const EmptyCell*>(this);
+            if(emptyCell->emp==EmptyType::E) {
+                out = "_"s;//"~"s;
+            }else{
+            out = "2"s;}
+            }
             break;
-        }
-        case CellType::Empty2: {
-            out = "2"s;//"`"s;
-            break;
-        }
         case CellType::Chest: {
             out = "C"s;
             break;
         }
         case CellType::Sonar: {
-            if (this->distance < 10)
-                out = std::to_string(this->distance);
+            auto sonar = dynamic_cast<const Sonar*>(this);
+            if (sonar->distance < 10)
+                out = std::to_string(sonar->distance);
             else
                 out = std::to_string(0);
             out = "S"s;
