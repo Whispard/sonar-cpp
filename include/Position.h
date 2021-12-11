@@ -27,11 +27,13 @@ struct Position {
             throw std::logic_error("Invalid pos parameters");
         }
     }
+    // 106
 
-
-    static std::vector<Position> makeRandom(RandomGenerator& randomizer){
+    template<typename T,typename Container>
+    static auto makeRandom(RandomGenerator& randomizer){
         // TODO: Use fp for shorter method
-        auto result = std::vector<Position>();
+//        auto result = Container<T>{};
+        auto result = Container();
         Position::setLimits(config);
         for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
             auto newPos = Position{
@@ -47,6 +49,26 @@ struct Position {
         }
         return result;
     }
+
+//    template<typename Container>
+//    static auto makeRandom(RandomGenerator& randomizer){
+//        // TODO: Use fp for shorter method
+//        auto result = std::vector<Position>();
+//        Position::setLimits(config);
+//        for (int chestsPlaced = 0; chestsPlaced < config.totalChests; ++chestsPlaced) {
+//            auto newPos = Position{
+//                    randomizer.below(config.rows),
+//                    randomizer.below(config.cols)
+//            };
+//            //Handle if Position already exists
+//            if(std::find(result.begin(), result.end(), newPos)!=result.end()){
+//                chestsPlaced--;
+//                continue;
+//            }
+//            result.push_back(newPos);
+//        }
+//        return result;
+//    }
 
 
 

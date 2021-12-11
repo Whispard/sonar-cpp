@@ -44,8 +44,6 @@ std::string Cell::getDrawing(int randomNum) const {
             break;
         }
         case CellType::Ranger: {
-            // TODO: Fix this implicit convo to char
-//            out = this->distance + '0';
             out = "."s;
             break;
         }

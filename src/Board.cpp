@@ -16,8 +16,7 @@ Board::Board(Config config, RandomGenerator& randomizer, Screen& screen) :
         }
         board.push_back(std::move(newRow));
     }
-
-    auto randPositions = Position::makeRandom(randomizer);
+    auto randPositions = Position::makeRandom<Position,std::vector<Position>>(randomizer);
     for (auto &chestPos: randPositions) {
         board[chestPos.row][chestPos.col] = std::make_unique<Chest>(chestPos,randomizer.flipCoin()?EmptyType::E:EmptyType::F);
     }
@@ -65,17 +64,12 @@ void Board::markRangers() {
     }
 }
 
-// TODO: Add place randomly
 bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
 
     if (currentCell->kind == CellType::Sonar)
         return false;
     currentCell = std::make_unique<Sonar>(pos);
-
-
-    // fine way to solve this is just make list of all positions and sonars
-    // we can snatch objs
 
     auto chests = std::vector<Position>();
     std::for_each(board.begin(), board.end(), [&](auto& row){
