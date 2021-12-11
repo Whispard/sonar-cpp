@@ -74,12 +74,8 @@ bool Board::placeAt(Position pos) {
     auto &currentCell = getCell(pos);
     if(currentCell->kind==CellType::Chest){
         // TODO: use cast instead
-        auto c = dynamic_cast<Chest*>(currentCell.get());
-//        auto chest = std::find_if(chests.begin(), chests.end(),
-//                     [&pos](Chest c){
-//            return c.pos==pos;
-//        });
-//        chest->found = true;
+        auto chest = dynamic_cast<Chest*>(currentCell.get());
+        chest->found = true;
         // other modifications?
         return false;
     }
@@ -88,10 +84,16 @@ bool Board::placeAt(Position pos) {
 
     currentCell = std::make_unique<Sonar>(pos);
 
+    // fine way to solve this is just make list of all positions and sonars
+    // we can snatch objs
 
-//    for (auto &sonar: sonars) {
-//        board[sonar.row][sonar.col]->distance = sonar.distFromNearestChest(chests);
-//    }
+    auto chests = std::vector<std::reference_wrapper<std::unique_ptr<Chest>>>();
+    std::for_each(board.begin(), board.end(), [&chests](auto row){
+        std::for_each(row.begin(),row.end(),[&chests](auto cell){
+            chests.push_back(std::reference_wrapper<std::unique_ptr<Chest>>(cell));
+        });
+    });
+//    Sonar::updateAll(chests);
     return true;
 }
 
