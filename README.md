@@ -14,6 +14,7 @@ which shows distance between that point to nearest treasure.
 
 drop a few sonars, and you'll figure out the treasure.
 distance:
+
 ![sample pic](media/sonar-howto.webp)
 
 (Taken from inventwithpython)
